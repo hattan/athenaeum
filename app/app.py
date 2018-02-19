@@ -9,24 +9,24 @@ app.register_blueprint(blueprint)
 
 app.config['SWAGGER_UI_JSONEDITOR'] = True
 
-a_language = api.model('Language', {'language' : fields.String('The language.')}) #, 'id' : fields.Integer('ID')
+a_session = api.model('Session', {'session' : fields.String('present this topic.')}) #, 'id' : fields.Integer('ID')
  
-languages = []
-python = {'language' : 'Python', 'id' : 1}
-languages.append(python)
+sessions = []
+session = {'name' : 'Intro to Python', 'id' : 1}
+sessions.append(session)
 
-@api.route('/language')
-class Language(Resource):
+@api.route('/sessions')
+class Session(Resource):
 
-    @api.marshal_with(a_language, envelope='the_data')
+    @api.marshal_with(a_session, envelope='the_data')
     def get(self):
-        return languages
+        return sessions
 
-    @api.expect(a_language)
+    @api.expect(a_session)
     def post(self):
-        new_language = api.payload 
-        new_language['id'] = len(languages) + 1
-        languages.append(new_language)
+        new_session = api.payload 
+        new_session['id'] = len(sessions) + 1
+        sessions.append(new_session)
         return {'result' : 'Language added'}, 201 
 
 if __name__ == '__main__':
